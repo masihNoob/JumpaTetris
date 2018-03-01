@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameplayManager : MonoBehaviour {
+
     public static int gridWidth = 11, gridHeight = 20;
 	public static Transform[,]grid = new Transform[gridWidth, gridHeight];
-	
+	ScoreManager point = new ScoreManager();
 	private void Start() {
 		GenerateMino();
 	}
@@ -91,6 +92,7 @@ public class GameplayManager : MonoBehaviour {
 			if(grid[x,y]==null)
 				return false;
 		}
+		point.lengthDestroy++;
 		return true;
     }
     private void DestroyRowAt(int y)
@@ -127,8 +129,9 @@ public class GameplayManager : MonoBehaviour {
 				MoveAllRowDowns(y+1);
 				y--;
 			}
-			
         }
+		point.UpdateScore();
+		Debug.Log(point.ShowPoint());
     }
 	public bool IsReachedLimitGrid(SystemHandler termino){
 		for (int x = 0; x < gridWidth; x++)
