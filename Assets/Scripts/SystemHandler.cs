@@ -81,7 +81,11 @@ public class SystemHandler : MonoBehaviour {
             transform.position += Vector3.up;
 			gameplaymanager.DestroyRow();
 			enabled = false;
-			gameplaymanager.GenerateMino();
+			if (gameplaymanager.IsReachedLimitGrid(this))
+				gameplaymanager.GameOver(this);
+			else
+				gameplaymanager.GenerateMino();
+
 		}else
             gameplaymanager.UpdateGrid(this);
 	}

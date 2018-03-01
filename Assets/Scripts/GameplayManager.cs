@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameplayManager : MonoBehaviour {
     public static int gridWidth = 11, gridHeight = 20;
@@ -71,9 +72,9 @@ public class GameplayManager : MonoBehaviour {
 	
 	public bool TermoInsideGrid(Vector3 pos){
 		return(
-			(int)pos.x >=1 &&
+			(int)pos.x >=0 &&
 			(int)pos.x < gridWidth &&
-			(int)pos.y >=1
+			(int)pos.y >=0
 		);
 	}
 	public Vector3 Round(Vector3 pos){
@@ -83,12 +84,12 @@ public class GameplayManager : MonoBehaviour {
 			Mathf.Round(pos.z)
 		);
 	}
-    private bool IsRowFullAtint(int y)
+    private bool IsRowFullAt(int y)
     {
 		for (int x = 0; x < gridWidth; x++)
 		{
 			if(grid[x,y]==null)
-			return false;
+				return false;
 		}
 		return true;
     }
@@ -121,7 +122,7 @@ public class GameplayManager : MonoBehaviour {
     {
         for (int y = 0; y < gridHeight; y++)
         {
-			if(IsRowFullAtint(y)){
+			if(IsRowFullAt(y)){
                 DestroyRowAt(y);
 				MoveAllRowDowns(y+1);
 				y--;
@@ -129,4 +130,21 @@ public class GameplayManager : MonoBehaviour {
 			
         }
     }
+	public bool IsReachedLimitGrid(SystemHandler termino){
+		for (int x = 0; x < gridWidth; x++)
+		{
+			foreach (Transform mino in termino.transform)
+			{
+				Vector3 pos =Round(mino.position);
+				if(pos.y >= gridHeight-1 && !termino.isActiveAndEnabled){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public void GameOver(SystemHandler termino){
+		SceneManager.LoadScene("Tetris");
+		enabled = true;
+	}
 }
