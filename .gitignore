@@ -1,0 +1,9 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bject/
+[Bb]uild/
+[Bb]uilds/
+Assests/AssestStoreTools*
+*.pidb.meta
+*.pdb.meta
+sysinfo.txt
